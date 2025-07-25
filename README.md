@@ -4,12 +4,14 @@
 
 # 目录
 
-* [项目介绍]（#项目介绍）
-* [md文档编写规范]（#md文档编写规范）
-* [常用的git命令]（#常用的git命令）
-* [开发人员名单]（#开发人员名单）
+* [项目介绍]（# 项目介绍）
+* [md文档编写规范]（# md文档编写规范）
+* [常用的git命令]（# 常用的git命令）
+* [开发人员名单]（# 开发人员名单）
+  
 ## 项目介绍
 本项目为河北北方学院信息科学与工程学院C508科研室暨移动应用技术俱乐部的门户网站和人员管理系统。
+
 ## md文档编写规范
 参考下面网站
 [GitHub Flavored Markdown](https://github.com/guodongxiaren/README)
@@ -53,10 +55,6 @@
 |                | 李想           |              |                |
 
 [![HBNU C508](https://img.shields.io/badge/HBNU-C508-blue?style=flat&logo=https://raw.githubusercontent.com/c508kys/kys/main/img/Hebei_North_University_Logo.png&logoWidth=20&link=https://www.hebeinu.edu.cn/)](https://www.hebeinu.edu.cn/)
-
-<div align="center" style="line-height: 1;">
-<a href="https://www.hebeinu.edu.cn/" target="_blank">HBNU C508</a>
-</div>
 
 ## Star History
 [![Star History Chart](https://api.star-history.com/svg?repos=c508kys/kys&type=Date)](https://www.star-history.com/#c508kys/kys&Date)
