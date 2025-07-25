@@ -2,8 +2,20 @@
 
 # c508科研室网站（开发版本）
 
+# 目录
 
-## 1.常用的git命令
+* [项目介绍]（#项目介绍）
+* [md文档编写规范]（#md文档编写规范）
+* [常用的git命令]（#常用的git命令）
+* [开发人员名单]（#开发人员名单）
+## 项目介绍
+本项目为河北北方学院信息科学与工程学院C508科研室暨移动应用技术俱乐部的门户网站和人员管理系统。
+## md文档编写规范
+参考下面网站
+[GitHub Flavored Markdown](https://github.com/guodongxiaren/README)
+	https://github.com/guodongxiaren/README
+	
+## 常用的git命令
 
 | 命令 | 解释 | 示例 | 适用场景 |
 |------|------|:----:|----------|
@@ -25,8 +37,8 @@
 | `git restore <文件路径>` | 丢弃工作区的修改，恢复到最近一次提交状态 | `git restore app.js` <br> `git restore css/style.css` | 误修改文件后，想撤销未提交的变更 |
 | `git clone <远程仓库地址>` | 从远程仓库复制完整项目到本地 | `git clone https://github.com/c508kys/kys.git` | 首次获取远程已有项目（如克隆开源项目） |
 
-## 2.开发人员名单
-
+## 开发人员名单
+指导老师：杨晶晶、张钰乐
 负责人：刘瑞奇、陈雅文
 
 | 服务器运行维护 | 后端系统开发   | 前端页面设计 | 系统功能设计   |
@@ -39,4 +51,13 @@
 |                | 宋振扬         | 国嘉蕊       | 张思彤         |
 |                | 刘鑫蕊         |              |                |
 |                | 李想           |              |                |
+
+[![HBNU C508](https://img.shields.io/badge/HBNU-C508-blue?style=flat&logo=https://raw.githubusercontent.com/c508kys/kys/main/img/Hebei_North_University_Logo.png&logoWidth=20&link=https://www.hebeinu.edu.cn/)](https://www.hebeinu.edu.cn/)
+
+<div align="center" style="line-height: 1;">
+<a href="https://www.hebeinu.edu.cn/" target="_blank">HBNU C508</a>
+</div>
+
+## Star History
+[![Star History Chart](https://api.star-history.com/svg?repos=c508kys/kys&type=Date)](https://www.star-history.com/#c508kys/kys&Date)
 
