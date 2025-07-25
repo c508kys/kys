@@ -4,10 +4,10 @@
 
 # 目录
 
-* [项目介绍]（# 项目介绍）
-* [md文档编写规范]（# md文档编写规范）
-* [常用的git命令]（# 常用的git命令）
-* [开发人员名单]（# 开发人员名单）
+* [项目介绍](#项目介绍)
+* [md文档编写规范](#md文档编写规范)
+* [常用的git命令](#常用的git命令)
+* [开发人员名单](#开发人员名单)
   
 ## 项目介绍
 本项目为河北北方学院信息科学与工程学院C508科研室暨移动应用技术俱乐部的门户网站和人员管理系统。
@@ -58,4 +58,3 @@
 
 ## Star History
 [![Star History Chart](https://api.star-history.com/svg?repos=c508kys/kys&type=Date)](https://www.star-history.com/#c508kys/kys&Date)
-
