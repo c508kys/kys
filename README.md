@@ -5,16 +5,22 @@
 # 目录
 
 * [项目介绍](#项目介绍)
+* [会议记录](#会议记录)
 * [md文档编写规范](#md文档编写规范)
 * [常用的git命令](#常用的git命令)
 * [开发人员名单](#开发人员名单)
-  
+
 ## 项目介绍
 本项目为河北北方学院信息科学与工程学院C508科研室暨移动应用技术俱乐部的门户网站和人员管理系统。
 
+## 会议记录
+* [科研室网站开发项目第一次会议记录2025.07.07](/logs/科研室网站开发项目第一次会议记录250707.md)
+* [科研室网站开发项目第二次会议记录2025.07.14](/logs/科研室网站开发项目第二次会议记录250114.md)
+* [科研室网站开发项目第三次会议记录2025.07.22](/logs/科研室网站开发项目第三次会议记录250722.md)
+
 ## md文档编写规范
 参考下面网站
-[GitHub Flavored Markdown](https://github.com/guodongxiaren/README)
+[GitHub Flavored Markdown](https://github.com/guodongxiaren/README)  
 	https://github.com/guodongxiaren/README
 	
 ## 常用的git命令
