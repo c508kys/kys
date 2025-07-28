@@ -10,13 +10,13 @@ JDK版本需要在1.8以上
 
 计算机中先配置MySQL的环境，创建账号密码等之后在项目工程中寻找sql文件夹，这之中有数据库配置脚本，通过idea可一键配置。
 
-![second](c508kys/images/second.png)
+![second](images/second.png)
 
 之后在admin文件中resources下application-druid.yml填写数据库的账号和密码。
 
-![first](c508kys/images/first.png)
+![first](images/first.png)
 
-![ninth](c508kys/images/ninth.png)
+![ninth](images/ninth.png)
 
 
 
