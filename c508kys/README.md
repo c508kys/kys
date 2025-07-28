@@ -10,13 +10,13 @@ JDK版本需要在1.8以上
 
 计算机中先配置MySQL的环境，创建账号密码等之后在项目工程中寻找sql文件夹，这之中有数据库配置脚本，通过idea可一键配置。
 
-![first](D:\projects\kys\c508kys\images\first.png)
+![second](images\second.png)
 
 之后在admin文件中resources下application-druid.yml填写数据库的账号和密码。
 
-![first](D:\projects\kys\c508kys\images\first.png)
+![first](images\first.png)
 
-![ninth](D:\projects\kys\c508kys\images\ninth.png)
+![ninth](images\ninth.png)
 
 
 
@@ -26,26 +26,26 @@ JDK版本需要在1.8以上
 
 文件地址是admin中resources下的application.yml
 
-![first](D:\projects\kys\c508kys\images\first.png)
+![first](images\first.png)
 
-![third](D:\projects\kys\c508kys\images\third.png)
+![third](images\third.png)
 
 至此，后端的环境就配好了
 
 在admin中运行RouYiapplication终端会呈现如下结果
 
-![fourth](D:\projects\kys\c508kys\images\fourth.png)
+![fourth](images\fourth.png)
 
-![fifth](D:\projects\kys\c508kys\images\fifth.png)
+![fifth](images\fifth.png)
 
 # 二、前端
 
 1、你的计算机上需要有node环境，配置好之后再rouyi-ui的readme文件中可以看到配置本项目需要用到的环境，运行它就好，
 
-![sixth](D:\projects\kys\c508kys\images\sixth.png)
+![sixth](images\sixth.png)
 
-![seventh](D:\projects\kys\c508kys\images\seventh.png)
+![seventh](images\seventh.png)
 
 现在再启动这个项目就可以看到完整的界面了
 
-![eighth](D:\projects\kys\c508kys\images\eighth.png)
+![eighth](images\eighth.png)
