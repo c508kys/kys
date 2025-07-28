@@ -36,6 +36,8 @@ JDK版本需要在1.8以上
 
 在rouyi-ui的readme文件中启动服务在网页端会呈现如下结果。![d4b9db3aa4ba539afe0ccf325a92e43](D:\Wechat\WeChat Files\wxid_luryu4nbnv2v22\FileStorage\Temp\d4b9db3aa4ba539afe0ccf325a92e43.png)
 
+
+
 # 二、前端
 
 1、你的计算机上需要有node环境，配置好之后再rouyi-ui的readme文件中可以看到配置本项目需要用到的环境，运行它就好，
