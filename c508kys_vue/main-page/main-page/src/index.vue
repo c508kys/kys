@@ -1,36 +1,54 @@
 <template>
-  <div>
-      <!-- 炫酷的背景特效 -->
+  <div class="app">
+    <!-- 高级背景特效 -->
     <div class="background-effects">
       <div class="grid-bg"></div>
-      <div class="floating-particles" id="floating-particles"></div>
-      <div class="dynamic-lines" id="dynamic-lines"></div>
-      <div id="code-elements"></div>
+      <div class="floating-particles" ref="floatingParticles"></div>
+      <div class="dynamic-lines" ref="dynamicLines"></div>
+      <div id="code-elements" ref="codeElements"></div>
     </div>
 
     <!-- 导航栏 -->
     <header>
       <div class="container">
         <nav>
-          <div class="logo">移动应用技术开发俱乐部</div>
+        <div class="logo">
+        <img src="/src//assets/image.png" alt="河北北方学院信息科学与工程学院 logo" style="height: 40px; margin-right: 10px;">
+      </div>
+          
           <ul class="nav-links">
-            <li><a href="#home">首页</a></li>
-            <li><a href="#about">关于我们</a></li>
-            <li><a href="#groups">研究组</a></li>
-            <li><a href="#platform">信息平台</a></li>
-            <li><a href="#member">成员专区</a></li>
-            <li><a href="#join">加入我们</a></li>
+            <li><a href="#home" @click.prevent="scrollTo('home')">首页</a></li>
+            <li><a href="#about" @click.prevent="scrollTo('about')">关于我们</a></li>
+            <li><a href="#groups" @click.prevent="scrollTo('groups')">研究组</a></li>
+            <li><a href="#platform" @click.prevent="scrollTo('platform')">信息平台</a></li>
+            <li><a href="#member" @click.prevent="scrollTo('member')">成员专区</a></li>
+            <li><a href="#join" @click.prevent="scrollTo('join')">加入我们</a></li>
           </ul>
+          <button class="mobile-menu-btn" @click="toggleMobileMenu">
+            <i class="fas fa-bars"></i>
+          </button>
         </nav>
       </div>
     </header>
 
-    <!-- 顶部区域 -->
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu" :class="{ 'active': mobileMenuOpen }">
+      <ul>
+        <li><a href="#home" @click.prevent="scrollTo('home')">首页</a></li>
+        <li><a href="#about" @click.prevent="scrollTo('about')">关于我们</a></li>
+        <li><a href="#groups" @click.prevent="scrollTo('groups')">研究组</a></li>
+        <li><a href="#platform" @click.prevent="scrollTo('platform')">信息平台</a></li>
+        <li><a href="#member" @click.prevent="scrollTo('member')">成员专区</a></li>
+        <li><a href="#join" @click.prevent="scrollTo('join')">加入我们</a></li>
+      </ul>
+    </div>
+
+    <!-- 英雄区域 -->
     <section class="hero" id="home">
       <div class="container">
-        <h1>探索前沿科技 · 培养创新人才</h1>
+        <h1>移动应用技术开发俱乐部(C508科研室)</h1>
         <p>移动应用技术开发俱乐部致力于移动开发技术、移动前端交互和机器学习的研究，为学生提供优质的科研环境和实践机会</p>
-        <a href="#join" class="btn">立即加入</a>
+        <a href="#join" class="btn" @click.prevent="scrollTo('join')">立即加入</a>
       </div>
     </section>
 
@@ -41,68 +59,78 @@
         <div class="showcase-container">
           <div class="video-container">
             <div class="video-wrapper">
-              <video controls poster="/src/components/icons/IconCommunity.vue">
-                <source src="/src/components/icons/IconCommunity.vue" type="video/mp4">
+              <video controls poster="/src/components/HelloWorld.vue">
+                <source src="/src/components/HelloWorld.vue" type="video/mp4">
                 您的浏览器不支持HTML5视频
               </video>
               <div class="video-caption">科研室环境与日常工作</div>
             </div>
           </div>
           <div class="image-slider">
-            <div class="slider-container">
-              <div class="slider-track">
-                <div class="slide active">
-                  <img src="/src/components/icons/IconCommunity.vue" alt="科研室活动1">
-                  <div class="slide-caption">学术讨论会</div>
-                </div>
-                <div class="slide">
-                  <img src="/src/components/icons/IconCommunity.vue" alt="科研室活动2">
-                  <div class="slide-caption">项目开发中</div>
-                </div>
-                <div class="slide">
-                  <img src="/src/components/icons/IconCommunity.vue" alt="科研室活动3">
-                  <div class="slide-caption">成果展示</div>
+            <div class="slider-container" @mouseenter="pauseSlider" @mouseleave="resumeSlider">
+              <div class="slider-track" :style="{ transform: `translateX(-${currentSlide * 100}%)` }">
+                <div class="slide" v-for="(slide, index) in slides" :key="index" :class="{ 'active': index === currentSlide }">
+                  <img :src="slide.image" :alt="slide.alt">
+                  <div class="slide-caption">{{ slide.caption }}</div>
                 </div>
               </div>
               <div class="slider-nav">
                 <button class="prev-btn" @click="prevSlide">&lt;</button>
                 <div class="dots">
-                  <span class="dot" :class="{active: currentSlide === 0}" @click="goToSlide(0)"></span>
-                  <span class="dot" :class="{active: currentSlide === 1}" @click="goToSlide(1)"></span>
-                  <span class="dot" :class="{active: currentSlide === 2}" @click="goToSlide(2)"></span>
+                  <span class="dot" v-for="(slide, index) in slides" :key="index" 
+                        :class="{ 'active': index === currentSlide }"
+                        @click="goToSlide(index)"></span>
                 </div>
                 <button class="next-btn" @click="nextSlide">&gt;</button>
               </div>
             </div>
           </div>
         </div>
-        <div class="notice-board">
-          <div class="notice" @click="redirectTo('exam-results.html')">
-            <h3>考核成绩公布</h3>
-            <p id="exam-results-content">{{ examResults.content }}</p>
-            <div class="notice-date" id="exam-results-date">{{ examResults.date }}</div>
-          </div>
-          <div class="notice" @click="redirectTo('probation-notice.html')">
-            <h3>考察期通知</h3>
-            <p id="probation-content">{{ probationNotice.content }}</p>
-            <div class="notice-date" id="probation-date">{{ probationNotice.date }}</div>
-          </div>
-          <div class="notice" @click="redirectTo('upcoming-events.html')">
-            <h3>近期重要事件</h3>
-            <p id="events-content">{{ upcomingEvents.content.split('\n')[0] }}</p>
-            <p>{{ upcomingEvents.content.split('\n')[1] }}</p>
-            <div class="notice-date" id="events-date">{{ upcomingEvents.date }}</div>
-          </div>
-        </div>
+        <!-- 重要信息 -->
+        <div class="notice-board-wrapper">
+  <div class="notice-board-container">
+    <div class="notice-board">
+      <div class="notice" 
+           v-for="(notice, index) in notices" 
+           :key="index" 
+           @click="openModal(notice)"
+           :class="{ 'active': activeNotice === notice }">
+        <h3>{{ notice.title }}</h3>
+        <p v-html="notice.shortContent || notice.content"></p>
+        <div class="notice-date">{{ notice.date }}</div>
+      </div>
+      <!-- 复制一份用于无缝循环 -->
+      <div class="notice" 
+           v-for="(notice, index) in notices" 
+           :key="'copy-'+index" 
+           @click="openModal(notice)"
+           :class="{ 'active': activeNotice === notice }">
+        <h3>{{ notice.title }}</h3>
+        <p v-html="notice.shortContent || notice.content"></p>
+        <div class="notice-date">{{ notice.date }}</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 模态框 -->
+  <div class="notice-modal" v-if="activeNotice" @click.self="closeModal">
+    <div class="modal-content">
+      <button class="close-btn" @click="closeModal">&times;</button>
+      <h2>{{ activeNotice.title }}</h2>
+      <div class="modal-body" v-html="activeNotice.content"></div>
+      <div class="notice-date">{{ activeNotice.date }}</div>
+    </div>
+  </div>
+</div>
       </div>
     </section>
 
-    <!-- 科研室分组 -->
+    <!-- 研究组展示 -->
     <section class="research-groups" id="groups">
       <div class="container">
-        <h2 class="section-title">我们的学习组</h2>
+        <h2 class="section-title">我们的研究组</h2>
         <div class="groups-container">
-          <div class="group-card" v-for="group in researchGroups" :key="group.name">
+          <div class="group-card" v-for="(group, index) in researchGroups" :key="index">
             <div class="group-img">{{ group.name }}</div>
             <div class="group-content">
               <h3>{{ group.name }}</h3>
@@ -122,7 +150,7 @@
           点击下方模块了解更多关于我们科研室的详细信息
         </p>
         <div class="platform-container">
-          <div class="platform-card" v-for="platform in platforms" :key="platform.title">
+          <div class="platform-card" v-for="(platform, index) in platforms" :key="index">
             <div class="platform-header">
               <h3>{{ platform.title }}</h3>
             </div>
@@ -131,7 +159,7 @@
                 <i :class="platform.icon"></i>
               </div>
               <p>{{ platform.description }}</p>
-              <a :href="platform.link" class="btn">{{ platform.buttonText }}</a>
+              <a :href="platform.link" class="btn">查看详情</a>
             </div>
           </div>
         </div>
@@ -146,13 +174,13 @@
           科研室成员专属功能，请登录后使用
         </p>
         <div class="member-features">
-          <div class="feature-card" v-for="feature in memberFeatures" :key="feature.title">
+          <div class="feature-card" v-for="(feature, index) in memberFeatures" :key="index">
             <div class="feature-icon">
               <i :class="feature.icon"></i>
             </div>
             <h3>{{ feature.title }}</h3>
             <p>{{ feature.description }}</p>
-            <a :href="feature.link" class="btn">{{ feature.buttonText }}</a>
+            <a :href="feature.link" class="btn">进入</a>
           </div>
         </div>
       </div>
@@ -162,7 +190,9 @@
     <section class="join-us" id="join">
       <div class="container">
         <h2 class="section-title">加入移动应用开发俱乐部</h2>
-        <p style="max-width: 800px; margin: 0 auto 30px; color: var(--text-color);">我们正在寻找对科研充满热情的学生加入我们的团队。只要你有兴趣，我们都欢迎你的加入！</p>
+        <p style="max-width: 800px; margin: 0 auto 30px; color: var(--text-color);">
+          我们正在寻找对科研充满热情的学生加入我们的团队。只要你有兴趣，我们都欢迎你的加入！
+        </p>
         <form id="join-form" @submit.prevent="submitForm">
           <div class="form-group">
             <label for="name">姓名</label>
@@ -188,9 +218,9 @@
             <label for="group">意向组别</label>
             <select id="group" name="group" v-model="formData.group" required>
               <option value="">请选择...</option>
-              <option value="ai">移动开发技术组</option>
-              <option value="bigdata">移动前端交互组</option>
-              <option value="iot">机器学习组</option>
+              <option value="mobile">移动开发技术组</option>
+              <option value="frontend">移动前端交互组</option>
+              <option value="ml">机器学习组</option>
             </select>
           </div>
           <div class="form-group">
@@ -199,7 +229,8 @@
           </div>
           <div class="form-group">
             <label for="message">个人陈述</label>
-            <textarea id="message" name="message" v-model="formData.message" required placeholder="请简要说明你为什么想加入我们科研室，以及你的相关经验..."></textarea>
+            <textarea id="message" name="message" v-model="formData.message" required 
+                      placeholder="请简要说明你为什么想加入我们科研室，以及你的相关经验..."></textarea>
           </div>
           <button type="submit" class="btn" style="width: 100%;">提交申请</button>
         </form>
@@ -212,12 +243,12 @@
         <h3>移动应用开发俱乐部</h3>
         <p>河北北方学院信息科学与工程学院</p>
         <ul class="footer-links">
-          <li><a href="#home">首页</a></li>
-          <li><a href="#about">关于我们</a></li>
-          <li><a href="#groups">研究组</a></li>
-          <li><a href="#platform">信息平台</a></li>
-          <li><a href="#member">成员专区</a></li>
-          <li><a href="#join">加入我们</a></li>
+          <li><a href="#home" @click.prevent="scrollTo('home')">首页</a></li>
+          <li><a href="#about" @click.prevent="scrollTo('about')">关于我们</a></li>
+          <li><a href="#groups" @click.prevent="scrollTo('groups')">研究组</a></li>
+          <li><a href="#platform" @click.prevent="scrollTo('platform')">信息平台</a></li>
+          <li><a href="#member" @click.prevent="scrollTo('member')">成员专区</a></li>
+          <li><a href="#join" @click.prevent="scrollTo('join')">加入我们</a></li>
         </ul>
         <p class="copyright">© 2025 移动应用开发俱乐部 版权所有</p>
       </div>
@@ -227,99 +258,130 @@
 
 <script>
 export default {
-  name: 'MobileAppClub',
+
+  name: 'App',
   data() {
     return {
+      mobileMenuOpen: false,
       currentSlide: 0,
-      slideCount: 3,
       slideInterval: null,
-      examResults: {
-        content: "2025年新生面试成绩已出，请关注各部门群聊通知",
-        date: "2025-11-15"
-      },
-      probationNotice: {
-        content: "新成员考察期至12月底，请按时完成分配任务",
-        date: "2025-11-15"
-      },
-      upcomingEvents: {
-        content: "12月5日：人工智能学术研讨会\n12月15日：项目中期检查",
-        date: "2025-11-10"
-      },
+      slides: [
+        {
+          image: 'images/lab-image1.jpg',
+          alt: '科研室活动1',
+          caption: '学术讨论会'
+        },
+        {
+          image: 'images/lab-image2.jpg',
+          alt: '科研室活动2',
+          caption: '项目开发中'
+        },
+        {
+          image: 'images/lab-image3.jpg',
+          alt: '科研室活动3',
+          caption: '成果展示'
+        }
+      ],
+      notices: [
+        {
+          title: '考核成绩公布',
+          content: '2025年新生面试成绩已出，请关注各部门群聊通知',
+          date: '2025-11-15',
+          link: 'exam-results.html'
+        },
+        {
+          title: '考核成绩公布',
+          content: '2025年新生面试成绩已出，请关注各部门群聊通知',
+          date: '2025-11-15',
+          link: 'exam-results.html'
+        },
+        {
+          title: '考核成绩公布',
+          content: '2025年新生面试成绩已出，请关注各部门群聊通知',
+          date: '2025-11-15',
+          link: 'exam-results.html'
+        },
+        {
+          title: '考察期通知',
+          content: '新成员考察期至12月底，请按时完成分配任务',
+          date: '2025-11-15',
+          link: 'probation-notice.html'
+        },
+        {
+          title: '近期重要事件',
+          content: '12月5日：人工智能学术研讨会<br>12月15日：项目中期检查',
+          date: '2025-11-10',
+          link: 'upcoming-events.html'
+        }
+      ],
       researchGroups: [
         {
-          name: "移动开发技术组",
-          description: "专注于移动应用开发、用户体验设计和跨平台技术的研究与应用开发。培养学生在移动开发领域的理论知识和实践能力。",
-          link: "mobile-group.html"
+          name: '移动开发技术组',
+          description: '专注于移动应用开发、用户体验设计和跨平台技术的研究与应用开发。培养学生在移动开发领域的理论知识和实践能力。',
+          link: 'mobile-group.html'
         },
         {
-          name: "移动前端交互组",
-          description: "专注于移动端用户界面设计、用户体验优化和前端技术的研究与应用开发。培养学生在移动前端领域的理论知识和实践能力。",
-          link: "mobile-frontend-group.html"
+          name: '移动前端交互组',
+          description: '专注于移动端用户界面设计、用户体验优化和前端技术的研究与应用开发。培养学生在移动前端领域的理论知识和实践能力。',
+          link: 'mobile-frontend-group.html'
         },
         {
-          name: "机器学习组",
-          description: "专注于深度学习、自然语言处理和计算机视觉等领域的研究与应用开发。培养学生在机器学习领域的理论知识和实践能力。",
-          link: "ml-group.html"
+          name: '机器学习组',
+          description: '专注于深度学习、自然语言处理和计算机视觉等领域的研究与应用开发。培养学生在机器学习领域的理论知识和实践能力。',
+          link: 'ml-group.html'
         }
       ],
       platforms: [
         {
-          title: "科研成果展示",
-          icon: "fas fa-trophy",
-          description: "查看我们科研室近年来的重要科研成果、发表论文和获奖情况",
-          link: "achievements.html",
-          buttonText: "查看详情"
+          title: '科研成果展示',
+          icon: 'fas fa-trophy',
+          description: '查看我们科研室近年来的重要科研成果、发表论文和获奖情况',
+          link: 'achievements.html'
         },
         {
-          title: "师资团队",
-          icon: "fas fa-user-tie",
-          description: "了解我们优秀的指导老师团队和他们的研究方向",
-          link: "faculty.html",
-          buttonText: "认识导师"
+          title: '师资团队',
+          icon: 'fas fa-user-tie',
+          description: '了解我们优秀的指导老师团队和他们的研究方向',
+          link: 'faculty.html'
         },
         {
-          title: "优秀校友",
-          icon: "fas fa-graduation-cap",
-          description: "了解从我们科研室毕业的优秀学长学姐的发展情况",
-          link: "alumni.html",
-          buttonText: "校友风采"
+          title: '优秀校友',
+          icon: 'fas fa-graduation-cap',
+          description: '了解从我们科研室毕业的优秀学长学姐的发展情况',
+          link: 'alumni.html'
         },
         {
-          title: "AI智能问询",
-          icon: "fas fa-robot",
-          description: "使用AI助手快速获取科研室相关信息、常见问题解答与智能推荐",
-          link: "ai-assistant.html",
-          buttonText: "体验AI问询"
-        }
+          title: 'AI智能问询',
+          icon: 'fas fa-robot',
+          description: '使用AI助手快速获取科研室相关信息、常见问题解答与智能推荐',
+          link: 'ai-assistant.html'
+        },
+        
       ],
       memberFeatures: [
         {
-          title: "个人信息管理",
-          icon: "fas fa-user",
-          description: "维护个人资料 设置查看权限",
-          link: "member-info.html",
-          buttonText: "进入"
+          title: '个人信息管理',
+          icon: 'fas fa-user',
+          description: '维护个人资料 设置查看权限',
+          link: 'member-info.html'
         },
         {
-          title: "值日表",
-          icon: "fas fa-calendar-alt",
-          description: "查看和调整值日安排",
-          link: "duty-schedule.html",
-          buttonText: "进入"
+          title: '值日表',
+          icon: 'fas fa-calendar-alt',
+          description: '查看和调整值日安排',
+          link: 'duty-schedule.html'
         },
         {
-          title: "任务管理",
-          icon: "fas fa-tasks",
-          description: "分配和跟踪科研任务",
-          link: "tasks.html",
-          buttonText: "进入"
+          title: '任务管理',
+          icon: 'fas fa-tasks',
+          description: '分配和跟踪科研任务',
+          link: 'tasks.html'
         },
         {
-          title: "反馈建议",
-          icon: "fas fa-comments",
-          description: "提交和管理意见建议",
-          link: "feedback.html",
-          buttonText: "进入"
+          title: '反馈建议',
+          icon: 'fas fa-comments',
+          description: '提交和管理意见建议',
+          link: 'feedback.html'
         }
       ],
       formData: {
@@ -340,79 +402,87 @@ export default {
     this.createCodeElements();
     this.startSlider();
     this.loadNoticeContent();
-    
-    // 平滑滚动
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth'
-          });
-        }
-      });
-    });
+     this.startAutoScroll();
+    window.addEventListener('resize', this.handleResize);
   },
+  
   beforeDestroy() {
     clearInterval(this.slideInterval);
+    window.removeEventListener('resize', this.handleResize);
+    this.stopAutoScroll();
   },
   methods: {
-    // 图片轮播方法
+    toggleMobileMenu() {
+      this.mobileMenuOpen = !this.mobileMenuOpen;
+    },
+    
+    // 重要消息
+    openModal(notice) {
+    this.activeNotice = notice;
+    document.body.style.overflow = 'hidden';
+    this.stopAutoScroll();
+  },
+  closeModal() {
+    this.activeNotice = null;
+    document.body.style.overflow = '';
+    this.startAutoScroll();
+  },
+  startAutoScroll() {
+    const board = this.$el.querySelector('.notice-board');
+    if (!board) return;
+    
+    let scrollAmount = 0;
+    const cardWidth = 320; // 300px宽度 + 20px间隙
+    
+    this.scrollInterval = setInterval(() => {
+      scrollAmount += 1;
+      
+      // 当滚动到复制的内容开始时，重置到原始位置
+      if (scrollAmount >= cardWidth * this.notices.length) {
+        scrollAmount = 0;
+        board.scrollLeft = 0;
+      } else {
+        board.scrollLeft = scrollAmount;
+      }
+    }, 30); // 调整这个值可以改变滚动速度
+  },
+  stopAutoScroll() {
+    if (this.scrollInterval) {
+      clearInterval(this.scrollInterval);
+      this.scrollInterval = null;
+    }
+  },
+  // 消息
+    openModal(notice) {
+    this.activeNotice = notice;
+    document.body.style.overflow = 'hidden'; // 防止背景滚动
+  },
+  closeModal() {
+    this.activeNotice = null;
+    document.body.style.overflow = '';
+  },
+    startSlider() {
+      this.slideInterval = setInterval(this.nextSlide, 5000);
+    },
+    pauseSlider() {
+      clearInterval(this.slideInterval);
+    },
+    resumeSlider() {
+      this.slideInterval = setInterval(this.nextSlide, 5000);
+    },
     nextSlide() {
-      this.currentSlide = (this.currentSlide + 1) % this.slideCount;
-      this.updateSlider();
+      this.currentSlide = (this.currentSlide + 1) % this.slides.length;
     },
     prevSlide() {
-      this.currentSlide = (this.currentSlide - 1 + this.slideCount) % this.slideCount;
-      this.updateSlider();
+      this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
     },
     goToSlide(index) {
       this.currentSlide = index;
-      this.updateSlider();
     },
-    updateSlider() {
-      const track = document.querySelector('.slider-track');
-      if (track) {
-        track.style.transform = `translateX(-${this.currentSlide * 100}%)`;
-      }
+    goToNotice(link) {
+      window.location.href = link;
     },
-    startSlider() {
-      this.slideInterval = setInterval(this.nextSlide, 5000);
-      
-      const sliderContainer = document.querySelector('.slider-container');
-      if (sliderContainer) {
-        sliderContainer.addEventListener('mouseenter', () => {
-          clearInterval(this.slideInterval);
-        });
-        
-        sliderContainer.addEventListener('mouseleave', () => {
-          this.slideInterval = setInterval(this.nextSlide, 5000);
-        });
-      }
-    },
-    
-    // 从本地存储加载公告内容
-    loadNoticeContent() {
-      const savedExamResults = JSON.parse(localStorage.getItem('examResults'));
-      if (savedExamResults) {
-        this.examResults = savedExamResults;
-      }
-      
-      const savedProbationNotice = JSON.parse(localStorage.getItem('probationNotice'));
-      if (savedProbationNotice) {
-        this.probationNotice = savedProbationNotice;
-      }
-      
-      const savedUpcomingEvents = JSON.parse(localStorage.getItem('upcomingEvents'));
-      if (savedUpcomingEvents) {
-        this.upcomingEvents = savedUpcomingEvents;
-      }
-    },
-    
-    // 表单提交处理
     submitForm() {
-      // 这里可以添加AJAX请求来发送数据到服务器
       console.log('表单提交:', this.formData);
       alert('感谢您的申请！我们会尽快与您联系。');
       
@@ -428,81 +498,68 @@ export default {
         message: ''
       };
     },
-    
-    // 重定向方法
-    redirectTo(url) {
-      window.location.href = url;
+    loadNoticeContent() {
+      // 可以从localStorage或API加载公告内容
+      // 这里使用data中的默认值
     },
-    
-    // ==================== 创建浮动粒子 ====================
     createFloatingParticles() {
-      const container = document.getElementById('floating-particles');
-      if (!container) return;
-      
-      const particleCount = 150; // 增加粒子数量
-      
+      const container = this.$refs.floatingParticles;
+      const particleCount = 25;
+
       for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.classList.add('particle');
-        
+
         // 随机大小 (3px - 10px)
         const size = Math.random() * 7 + 3;
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
-        
+
         // 随机位置
         particle.style.left = `${Math.random() * 100}%`;
         particle.style.top = `${Math.random() * 100}%`;
-        
+
         // 随机动画延迟和持续时间
         particle.style.animationDelay = `${Math.random() * 5}s`;
         particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
-        
+
         // 随机颜色变化
-        const hue = 200 + Math.random() * 40; // 蓝色调范围
+        const hue = 200 + Math.random() * 40;
         particle.style.backgroundColor = `hsla(${hue}, 80%, 60%, ${Math.random() * 0.4 + 0.2})`;
-        
+
         container.appendChild(particle);
       }
     },
-    
-    // ==================== 创建动态线条 ====================
     createDynamicLines() {
-      const container = document.getElementById('dynamic-lines');
-      if (!container) return;
-      
-      const lineCount = 8; // 增加线条数量
-      
+      const container = this.$refs.dynamicLines;
+      const lineCount = 8;
+
       for (let i = 0; i < lineCount; i++) {
         const line = document.createElement('div');
         line.classList.add('line');
-        
+
         // 随机长度和位置
         const length = Math.random() * 300 + 100;
         line.style.width = `${length}px`;
         line.style.top = `${Math.random() * 100}%`;
         line.style.left = `${Math.random() * 100}%`;
-        
+
         // 随机旋转角度
         const angle = Math.random() * 360;
         line.style.transform = `rotate(${angle}deg)`;
-        
+
         // 随机动画延迟和持续时间
         line.style.animationDelay = `${Math.random() * 5}s`;
         line.style.animationDuration = `${Math.random() * 15 + 10}s`;
-        
+
         // 随机透明度
         line.style.opacity = Math.random() * 0.3 + 0.2;
-        
+
         container.appendChild(line);
       }
     },
-    
-    // ==================== 创建代码元素 ====================
     createCodeElements() {
-      const container = document.getElementById('code-elements');
-      if (!container) return;
-      
+      const container = this.$refs.codeElements;
       const codeSnippets = [
         "function research() { ... }",
         "const data = analyze();",
@@ -515,25 +572,28 @@ export default {
         "while(experiment) { ... }",
         "public void analyzeData()"
       ];
-      
+
       for (let i = 0; i < 15; i++) {
         const codeElement = document.createElement('div');
         codeElement.classList.add('code-element');
         codeElement.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
-        
+
         // 随机位置
         codeElement.style.left = `${Math.random() * 100}%`;
         codeElement.style.top = `${Math.random() * 100}%`;
-        
+
         // 随机动画延迟和持续时间
         codeElement.style.animationDelay = `${Math.random() * 10}s`;
         codeElement.style.animationDuration = `${Math.random() * 10 + 5}s`;
-        
+
         // 随机字体大小
         codeElement.style.fontSize = `${Math.random() * 6 + 10}px`;
-        
+
         container.appendChild(codeElement);
       }
+    },
+    handleResize() {
+      // 响应式布局调整逻辑
     }
   }
 }
@@ -556,18 +616,25 @@ export default {
   box-sizing: border-box;
   font-family: 'Helvetica Neue', Arial, sans-serif;
 }
+.logo {
+  display: flex;
+  align-items: center; /* 让图片和文字垂直居中对齐 */
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--primary-color);
+}
 
 body {
   color: var(--text-color);
   line-height: 1.6;
   background-color: var(--white);
   overflow-x: hidden;
+  width: 100%;
 }
 
+/* 关键修改：移除最大宽度限制，让内容与背景同宽 */
 .container {
-  max-width: 1200px;
-  width: 100;
-  margin: 0 auto;
+  width: 100%;
   padding: 0 20px;
 }
 
@@ -649,10 +716,10 @@ header {
   background-color: rgba(255, 255, 255, 0.9);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: sticky;
-  width: 100%;
   top: 0;
   z-index: 100;
   backdrop-filter: blur(5px);
+  width: 100%;
 }
 
 nav {
@@ -718,12 +785,62 @@ nav {
   color: var(--primary-color);
 }
 
-/* 顶部区域 */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 99;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.mobile-menu.active {
+  transform: translateY(0);
+}
+
+.mobile-menu ul {
+  list-style: none;
+  padding: 20px;
+}
+
+.mobile-menu li {
+  margin-bottom: 15px;
+}
+
+.mobile-menu a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: 500;
+  display: block;
+  padding: 10px;
+  transition: color 0.3s;
+}
+
+.mobile-menu a:hover {
+  color: var(--primary-color);
+}
+
+/* 英雄区域 */
 .hero {
   padding: 150px 0 100px;
   text-align: center;
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 .hero::before {
@@ -811,6 +928,7 @@ nav {
   padding: 100px 0;
   background-color: var(--white);
   position: relative;
+  width: 100%;
 }
 
 .showcase-container {
@@ -927,17 +1045,47 @@ nav {
   background: var(--primary-color);
 }
 
+/* 公告板容器样式 */
+.notice-board-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.notice-board-container {
+  width: 100%;
+  max-width: 1200px;
+  position: relative;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* 公告板主体样式 - 隐藏滚动条 */
 .notice-board {
   display: flex;
   gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
+  padding: 20px 0;
+  width: 100%;
+  overflow: hidden;
+  scroll-behavior: smooth;
 }
 
+/* 隐藏所有滚动条 */
+.notice-board::-webkit-scrollbar {
+  display: none;
+}
+
+.notice-board {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* 单个公告卡片样式 */
 .notice {
-  flex: 1;
-  min-width: 300px;
-  max-width: 350px;
+  flex: 0 0 300px;
   background: var(--light-color);
   padding: 20px;
   border-radius: 10px;
@@ -962,6 +1110,10 @@ nav {
 .notice p {
   margin-bottom: 10px;
   line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .notice-date {
@@ -970,11 +1122,113 @@ nav {
   text-align: right;
 }
 
+/* 模态框样式 */
+.notice-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s;
+}
+
+.modal-content {
+  background: white;
+  width: 80%;
+  max-width: 800px;
+  max-height: 80vh;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow-y: auto;
+  animation: slideUp 0.3s;
+  box-sizing: border-box;
+}
+
+.modal-content h2 {
+  color: var(--primary-color);
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.modal-body {
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  padding: 5px;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: #333;
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .notice-board-container {
+    padding: 0 15px;
+  }
+  
+  .notice {
+    flex: 0 0 85%;
+    padding: 15px;
+  }
+  
+  .modal-content {
+    width: 95%;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .notice {
+    flex: 0 0 90%;
+  }
+  
+  .modal-content {
+    width: 98%;
+    padding: 15px;
+  }
+}
 /* 研究组展示 */
 .research-groups {
   padding: 100px 0;
   background-color: var(--white);
   position: relative;
+  width: 100%;
 }
 
 .research-groups::before {
@@ -1093,7 +1347,9 @@ nav {
   padding: 100px 20px;
   background-color: var(--light-color);
   position: relative;
+  width: 100%;
 }
+
 .lab-platform::before {
   content: "";
   position: absolute;
@@ -1105,13 +1361,16 @@ nav {
   opacity: 0.05;
   pointer-events: none;
 }
+
 .platform-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 30px;
   max-width: 1200px;
+  min-width: auto;
   margin: 0 auto;
 }
+
 .platform-card {
   background: var(--white);
   border-radius: 10px;
@@ -1124,10 +1383,12 @@ nav {
   perspective: 1000px;
   transform-style: preserve-3d;
 }
+
 .platform-card:hover {
   transform: translateY(-8px) rotateX(5deg) rotateY(5deg);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
+
 .platform-header {
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   color: white;
@@ -1136,6 +1397,7 @@ nav {
   position: relative;
   overflow: hidden;
 }
+
 .platform-header::before {
   content: "";
   position: absolute;
@@ -1151,11 +1413,13 @@ nav {
   transform: rotate(30deg);
   animation: shine 3s infinite;
 }
+
 .platform-header h3 {
   margin: 0;
   font-size: 1.3rem;
   position: relative;
 }
+
 .platform-content {
   padding: 25px;
   text-align: center;
@@ -1163,11 +1427,13 @@ nav {
   display: flex;
   flex-direction: column;
 }
+
 .platform-icon {
   font-size: 2.5rem;
   color: var(--primary-color);
   margin-bottom: 15px;
 }
+
 .platform-content p {
   margin-bottom: 20px;
   color: var(--text-color);
@@ -1178,6 +1444,7 @@ nav {
 .member-area {
   padding: 100px 0;
   background-color: var(--white);
+  width: 100%;
 }
 
 .member-features {
@@ -1234,6 +1501,7 @@ nav {
   text-align: center;
   background-color: var(--white);
   position: relative;
+  width: 100%;
 }
 
 .join-us::before {
@@ -1316,6 +1584,7 @@ footer {
   padding: 60px 0 30px;
   text-align: center;
   position: relative;
+  width: 100%;
 }
 
 footer::before {
@@ -1461,6 +1730,14 @@ footer p {
     display: none;
   }
   
+  .mobile-menu-btn {
+    display: block;
+  }
+  
+  .mobile-menu {
+    display: block;
+  }
+  
   .showcase-container {
     flex-direction: column;
   }
@@ -1483,15 +1760,12 @@ footer p {
   }
   
   .platform-container {
-    flex-direction: column;
-  }
-  
-  .platform-card {
-    min-width: 100%;
+    grid-template-columns: 1fr;
   }
   
   .member-features {
     flex-direction: column;
+    align-items: center;
   }
   
   .feature-card {
@@ -1500,6 +1774,50 @@ footer p {
   
   .section-title {
     font-size: 1.8rem;
+  }
+  
+  #join-form {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 100px 0 60px;
+  }
+  
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+  
+  .hero p {
+    font-size: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .section-title::after {
+    height: 2px;
+    bottom: -5px;
+  }
+  
+  .group-content h3, .platform-header h3, .feature-card h3 {
+    font-size: 1.2rem;
+  }
+  
+  footer h3 {
+    font-size: 1.5rem;
+  }
+  
+  .footer-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .footer-links li {
+    margin: 5px 0;
   }
 }
 </style>
