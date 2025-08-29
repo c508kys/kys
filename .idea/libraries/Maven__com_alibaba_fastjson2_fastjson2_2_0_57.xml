@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.alibaba.fastjson2:fastjson2:2.0.57">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../maven/repository/com/alibaba/fastjson2/fastjson2/2.0.57/fastjson2-2.0.57.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../maven/repository/com/alibaba/fastjson2/fastjson2/2.0.57/fastjson2-2.0.57-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../maven/repository/com/alibaba/fastjson2/fastjson2/2.0.57/fastjson2-2.0.57-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
